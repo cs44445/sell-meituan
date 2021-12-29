@@ -31,18 +31,54 @@
       </div>
     </div>
 
-    <!-- 提示 -->
+    <!-- 公告 -->
     <div v-if="activities.length >= 0">
       <div class="header-tips" v-for="(item, index) in activities" :key="index">
         <img :src="item.icon_url" alt="" class="header-tips-logo" />
+
         <div class="header-tips-info">{{ item.info }}</div>
-        <span class="header-tips-num">{{ activities.length }}个活动</span>
-        <span class="icon-keyboard_arrow_right"></span>
+        <div class="header-tips-cheack" @click="showDetail">
+          <span class="header-tips-num">{{ activities.length }}个活动</span>
+          <span class="icon-keyboard_arrow_right"></span>
+        </div>
       </div>
     </div>
 
     <!-- 背景 -->
     <div class="header-bg" :style="content_bg"></div>
+
+    <!-- 公告内容 -->
+    <transition name="fade">
+      <div class="bulletin-detail" v-show="showBulletin">
+        <div class="detail-wrapper">
+          <div class="main-wrapper" :style="main_bg">
+            <img :src="restaurantInfo.pic_url" alt="" />
+            <h3>{{ restaurantInfo.name }}</h3>
+            <p class="tip">
+              {{ restaurantInfo.min_price_tip }} <span>|</span>
+              {{ restaurantInfo.shipping_fee_tip }} <span>|</span>
+              {{ restaurantInfo.delivery_time_tip }}
+            </p>
+            <p class="time">配送时间: {{ restaurantInfo.shipping_time }}</p>
+            <div v-if="activities.length >= 0" class="activies-wrapper">
+              <div
+                v-for="(item, index) in activities"
+                :key="index"
+                class="activies-item"
+              >
+                <div>
+                  <img :src="item.icon_url" alt="" />
+                </div>
+                <span class="activies-info">{{ item.info }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="close-wrapper" @click="clickClose">
+            <span class="icon-close"></span>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -60,17 +96,38 @@ export default {
     return {
       restaurantInfo: this.shopInfo.poi_info,
       activities: this.shopInfo.poi_info.discounts2,
+      showBulletin: false,
+      isShow: true,
     };
   },
   computed: {
     content_bg() {
       return "background-image:url(" + this.restaurantInfo.head_pic_url + ")";
     },
+    head_bg() {
+      return "background-image:url(" + this.restaurantInfo.pic_url + ")";
+    },
+    main_bg() {
+      return (
+        "background-image:url(" + this.restaurantInfo.poi_back_pic_url + ")"
+      );
+    },
+  },
+  methods: {
+    showDetail() {
+      this.showBulletin = true;
+    },
+    clickClose() {
+      this.showBulletin = false;
+    },
+    testClick() {
+      this.isShow = !this.isShow;
+    },
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="less">
 @import url("./style.css");
 @import url("../../common/style/icon.css");
-</style>>
+</style>
