@@ -1,0 +1,165 @@
+header-wrapper{
+  width: 100%;
+  height: 150px;
+}
+
+.header-top{
+  position: relative;
+  margin-top: 20px;
+}
+
+.header-back{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 31px;
+  /* background: red; */
+  text-align: center;
+  line-height: 31px;
+}
+
+.header-back span{
+  color: white;
+  display: inline-block;
+}
+
+.header-search{
+  width: 100%;
+  height: 31px;
+  /* background: yellow; */
+  text-align: center;
+  line-height: 31px;
+  /* 设置盒子从边框开始计算 */
+  box-sizing: border-box;
+  padding: 0 104px 0 50px;
+}
+
+.header-search .search-icon{
+  width: 28px;
+  height: 31px;
+  background: url('../../../src/assets/img/titans_h5_search@2x.png') no-repeat center;
+  background-size: 13px 13px;
+  position: absolute;
+}
+
+.header-search .header-input{
+  width: 100%;
+  height: 31px;
+  box-sizing: border-box; 
+  background: #cdcdcc;
+  border-radius: 25px;
+  padding-left: 28px;
+  outline: none;
+}
+
+.header-more{
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* width: 104px; */
+  width: 65px;
+  /* height: 31px; */
+  height: 24px;
+  /* background: blue; */
+  padding: 7px 15px 0 24px;
+}
+
+
+.header-more-box{
+  display: flex;
+}
+
+.header-more-box .header-pd{
+  width: 30px;
+  height: 17px;
+  color: white;
+  line-height: 17px;
+  border: 1px solid white;
+  text-decoration: none;
+  text-align: center;
+  font-size: 10px;
+}
+
+.header-more-box .header-more-bt{
+  display: flex;
+  padding-left: 10px;
+  align-items: center;
+}
+
+.header-more-bt .s-radius{
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  border:1px solid white;
+  display: inline-block;
+  margin-right: 1px;
+}
+
+.header-wrapper .header-bg{
+width: 100%;
+height: 150px;
+position: absolute;
+left: 0;
+top: 0;
+z-index: -1;
+background-size: 100% 135%;
+background-position: center -12px;
+}
+
+.header-shop{
+  color: white;
+  display: flex;
+  padding: 17px 15px 10px 10px;
+}
+
+.shop-logo{
+  width: 50px;
+  height: 50px;
+}
+
+.shop-logo img{
+  width: 100%;
+  height: 100%;
+}
+
+.shop-name{
+  font-size: 16px;
+  font-weight: 700px;
+  margin: 17px 114px 0 10px;
+}
+
+.shop-star-wrapper{
+  font-size: 11px;
+  text-align: center;
+  padding-top: 7px;
+}
+
+.shop-star-wrapper img{
+  width: 20px;
+  height: 20px;
+}
+
+
+.header-wrapper .header-tips {
+  display: flex;
+  color: white;
+  font-size: 11px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.header-tips-info{
+  margin-right: 10px;
+}
+
+.header-tips img{
+  width: 16px;
+  height: 16px;
+  margin: 0 6px 0 10px;
+}
+
+.header-tips .icon-keyboard_arrow_right{
+  font-size: 16px;
+  text-align: center;
+}

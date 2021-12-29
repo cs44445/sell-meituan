@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- header 头部 -->
-    <SellHeader />
+    <SellHeader :shopInfo="shopInfo" />
 
     <!-- 导航 nav -->
     <SellNav />
@@ -15,6 +15,7 @@
 <script>
 import SellHeader from "../src/components/SellHeader";
 import SellNav from "../src/components/SellNav";
+import shopData from "./data/order";
 
 export default {
   name: "App",
@@ -23,7 +24,9 @@ export default {
     SellNav,
   },
   data() {
-    return {};
+    return {
+      shopInfo: shopData.data,
+    };
   },
 };
 </script>
