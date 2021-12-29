@@ -54,6 +54,10 @@
           <div class="main-wrapper" :style="main_bg">
             <img :src="restaurantInfo.pic_url" alt="" />
             <h3>{{ restaurantInfo.name }}</h3>
+            <div v-if="restaurantInfo.wm_poi_score" class="star-warpper">
+              <Star :score="restaurantInfo.wm_poi_score" />
+              <span class="star-score">{{ restaurantInfo.wm_poi_score }}</span>
+            </div>
             <p class="tip">
               {{ restaurantInfo.min_price_tip }} <span>|</span>
               {{ restaurantInfo.shipping_fee_tip }} <span>|</span>
@@ -83,9 +87,13 @@
 </template>
 
 <script>
+import Star from "../common/Star";
+
 export default {
   name: "SellHeader",
-  components: {},
+  components: {
+    Star,
+  },
   props: {
     shopInfo: {
       type: Object,
@@ -98,6 +106,7 @@ export default {
       activities: this.shopInfo.poi_info.discounts2,
       showBulletin: false,
       isShow: true,
+      score: 2.5,
     };
   },
   computed: {
@@ -124,10 +133,13 @@ export default {
       this.isShow = !this.isShow;
     },
   },
+  created() {
+    console.log(this.restaurantInfo);
+  },
 };
 </script>
 
 <style scoped lang="less">
-@import url("./style.css");
-@import url("../../common/style/icon.css");
+@import url("./style.less");
+@import url("../../assets/style/icon.css");
 </style>
