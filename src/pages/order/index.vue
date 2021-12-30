@@ -1,6 +1,6 @@
 <template>
   <div class="order">
-    <ul class="order-wrapper">
+    <ul class="order-wrapper" ref="leftMenu">
       <li>
         <img :src="topTypeList.tag_icon" alt="" />
         <span>{{ topTypeList.tag_name }}</span>
@@ -10,7 +10,7 @@
         <span>{{ item.name }}</span>
       </li>
     </ul>
-    <div class="goods-list">
+    <div class="goods-list" ref="goodsList">
       <!-- 专场 -->
       <div class="top-warpper">
         <div
@@ -55,19 +55,37 @@
 
 <script>
 import orderList from "@/data/order";
+import BScroll from "better-scroll";
 
 export default {
   name: "Order",
   components: {},
   created() {
-    console.log(orderList.data.food_spu_tags, "typeList==================");
-    console.log(this.topTypeList, "topTypeList==================");
+    this.initScroll();
+    // this.nextTick(() => {
+    //   this.initScroll();
+    // });
+  },
+  mounted() {
+    console.log(this.$refs.leftMenu, "this.$refs.leftMenu");
+    console.log(this.$refs.goodsList, "this.$refs.goodsList");
+    var _that = this;
+    this.initScroll();
+    this.$nextTick(() => {
+      _that.initScroll();
+    });
   },
   data() {
     return {
       topTypeList: orderList.data.container_operation_source,
       typeList: orderList.data.food_spu_tags,
     };
+  },
+  methods: {
+    initScroll() {
+      new BScroll(this.$refs.leftMenu);
+      new BScroll(this.$refs.goodsList);
+    },
   },
 };
 </script>
@@ -86,6 +104,7 @@ export default {
   .order-wrapper {
     flex: 0 0 85px;
     background: #f4f4f4;
+    overflow: hidden;
 
     li {
       display: flex;
@@ -200,4 +219,4 @@ export default {
     }
   }
 }
-</style>>
+</style>
