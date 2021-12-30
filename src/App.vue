@@ -7,7 +7,6 @@
     <SellNav />
 
     <!-- 主体内容 -->
-    <div>content</div>
     <router-view />
   </div>
 </template>
