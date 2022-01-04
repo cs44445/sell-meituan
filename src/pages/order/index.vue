@@ -3,11 +3,17 @@
     <div ref="MenuScroll">
       <!-- 使用滚动的内层只能由一个content包裹 否则无法滚动 -->
       <ul class="order-wrapper">
-        <li>
+        <li :class="{ activeMenu: currentIndex === 0 }" @click="selectMenu(0)">
           <img :src="topTypeList.tag_icon" alt="" />
           <span>{{ topTypeList.tag_name }}</span>
         </li>
-        <li class="order-type" v-for="(item, index) in typeList" :key="index">
+        <li
+          class="order-type"
+          v-for="(item, index) in typeList"
+          :key="index"
+          :class="{ activeMenu: currentIndex === index + 1 }"
+          @click="selectMenu(index + 1)"
+        >
           <img v-if="item.icon" :src="item.icon" alt="" />
           <span>{{ item.name }}</span>
         </li>
@@ -17,18 +23,20 @@
       <!-- 使用滚动的内层只能由一个content包裹 否则无法滚动 -->
       <div class="goods-list">
         <!-- 专场 -->
-        <div class="top-warpper">
+        <div class="top-warpper good-list-hook">
           <div
             class="top-img"
-            v-for="(item, index) in topTypeList.operation_source_list" :key="index"
+            v-for="(item, index) in topTypeList.operation_source_list"
+            :key="index"
           >
             <img :src="item.pic_url" alt="" />
           </div>
         </div>
-        <!-- 热销 -->
+        <!-- 具体分类 -->
         <div
-          class="food-warpper"
-          v-for="(item, index) in typeList" :key="index"
+          class="food-warpper good-list-hook"
+          v-for="(item, index) in typeList"
+          :key="index"
         >
           <div class="food-title">{{ item.name }}</div>
           <div
@@ -74,6 +82,10 @@ export default {
     return {
       topTypeList: orderList.data.container_operation_source,
       typeList: orderList.data.food_spu_tags,
+      MenuScroll: {},
+      goodScroll: {},
+      heightList: [],
+      scrollY: 0,
     };
   },
   mounted() {
@@ -83,8 +95,57 @@ export default {
   },
   methods: {
     initScroll() {
-      new BScroll(this.$refs.MenuScroll);
-      new BScroll(this.$refs.goodScroll);
+      this.MenuScroll = new BScroll(this.$refs.MenuScroll, {
+        click: true,
+      });
+      this.goodScroll = new BScroll(this.$refs.goodScroll, {
+        probeType: 2,
+      });
+
+      // 监听滚动
+      this.goodScroll.on("scroll", (pos) => {
+        this.scrollY = Math.abs(Math.round(pos.y));
+        this.getGoodHeight();
+      });
+    },
+    getGoodHeight() {
+      let goodList =
+        this.$refs.goodScroll.getElementsByClassName("good-list-hook");
+
+      // 添加到数组区间 0-219第一个区间(专场) 220-1290第二个区间(热销)
+      let height = 0;
+      this.heightList.push(height);
+      for (let i = 0; i < goodList.length; i++) {
+        let item = goodList[i];
+        // 累加
+        height += item.clientHeight;
+        this.heightList.push(height);
+      }
+    },
+    selectMenu(index) {
+      let goodList =
+        this.$refs.goodScroll.getElementsByClassName("good-list-hook");
+
+      // 根据下标，滚动到相对应的元素
+      let el = goodList[index];
+      // 滚动到对应元素的位置
+      this.goodScroll.scrollToElement(el, 250);
+    },
+  },
+  computed: {
+    currentIndex() {
+      // 根据右侧滚动位置，确定对应的索引下标
+      for (let i = 0; i < this.heightList.length; i++) {
+        // 获取商品区间的范围
+        let height1 = this.heightList[i];
+        let height2 = this.heightList[i + 1];
+
+        // 是否在上述区间中
+        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+          return i;
+        }
+      }
+      return 0;
     },
   },
 };
@@ -126,6 +187,15 @@ export default {
         height: 15px;
       }
     }
+  }
+
+  // 不能写成 .order-wrapper.activeMenu  这样写添加的动态样式是错误的  .activeMenu之前要有空格
+  // 也不能只写.activeMenu   需要写成.order-wrapper .activeMenu
+  .order-wrapper .activeMenu {
+    background: white;
+    font-weight: 700;
+    margin-top: -1px;
+    margin-bottom: -1px;
   }
 
   .goods-list {
