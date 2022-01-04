@@ -1,51 +1,61 @@
 <template>
   <div class="order">
-    <ul class="order-wrapper" ref="leftMenu">
-      <li>
-        <img :src="topTypeList.tag_icon" alt="" />
-        <span>{{ topTypeList.tag_name }}</span>
-      </li>
-      <li class="order-type" v-for="(item, index) in typeList" :key="index">
-        <img v-if="item.icon" :src="item.icon" alt="" />
-        <span>{{ item.name }}</span>
-      </li>
-    </ul>
-    <div class="goods-list" ref="goodsList">
-      <!-- 专场 -->
-      <div class="top-warpper">
-        <div
-          class="top-img"
-          v-for="(item, index) in topTypeList.operation_source_list"
-          :key="index"
-        >
-          <img :src="item.pic_url" alt="" />
-        </div>
-      </div>
-      <!-- 热销 -->
-      <div class="food-warpper" v-for="(item, index) in typeList" :key="index">
-        <div class="food-title">{{ item.name }}</div>
-        <div
-          v-for="(item2, indey) in item.spus"
-          :key="indey"
-          class="food-item-detail"
-        >
-          <div class="food-pic">
-            <img :src="item2.picture" alt="" />
+    <div ref="MenuScroll">
+      <!-- 使用滚动的内层只能由一个content包裹 否则无法滚动 -->
+      <ul class="order-wrapper">
+        <li>
+          <img :src="topTypeList.tag_icon" alt="" />
+          <span>{{ topTypeList.tag_name }}</span>
+        </li>
+        <li class="order-type" v-for="(item, index) in typeList" :key="index">
+          <img v-if="item.icon" :src="item.icon" alt="" />
+          <span>{{ item.name }}</span>
+        </li>
+      </ul>
+    </div>
+    <div ref="goodScroll">
+      <!-- 使用滚动的内层只能由一个content包裹 否则无法滚动 -->
+      <div class="goods-list">
+        <!-- 专场 -->
+        <div class="top-warpper">
+          <div
+            class="top-img"
+            v-for="(item, index) in topTypeList.operation_source_list" :key="index"
+          >
+            <img :src="item.pic_url" alt="" />
           </div>
-          <div class="food-info">
-            <p class="info-name">{{ item2.name }}</p>
-            <p v-if="item2.description" class="food-des">
-              {{ item2.description }}
-            </p>
-            <span class="info-num">{{ item2.month_saled_content }}</span>
-            <span v-if="item2.praise_content">{{ item2.praise_content }}</span>
-            <div class="info-tip" v-if="item2.product_label_picture">
-              <img :src="item2.product_label_picture" alt="" />
+        </div>
+        <!-- 热销 -->
+        <div
+          class="food-warpper"
+          v-for="(item, index) in typeList" :key="index"
+        >
+          <div class="food-title">{{ item.name }}</div>
+          <div
+            v-for="(item2, indey) in item.spus"
+            :key="indey"
+            class="food-item-detail"
+          >
+            <div class="food-pic">
+              <img :src="item2.picture" alt="" />
             </div>
-            <p class="info-price">
-              ￥<span class="info-price">{{ item2.min_price }}</span
-              >/{{ item2.unit }}
-            </p>
+            <div class="food-info">
+              <p class="info-name">{{ item2.name }}</p>
+              <p v-if="item2.description" class="food-des">
+                {{ item2.description }}
+              </p>
+              <span class="info-num">{{ item2.month_saled_content }}</span>
+              <span v-if="item2.praise_content">{{
+                item2.praise_content
+              }}</span>
+              <div class="info-tip" v-if="item2.product_label_picture">
+                <img :src="item2.product_label_picture" alt="" />
+              </div>
+              <p class="info-price">
+                ￥<span class="info-price">{{ item2.min_price }}</span
+                >/{{ item2.unit }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -60,31 +70,21 @@ import BScroll from "better-scroll";
 export default {
   name: "Order",
   components: {},
-  created() {
-    this.initScroll();
-    // this.nextTick(() => {
-    //   this.initScroll();
-    // });
-  },
-  mounted() {
-    console.log(this.$refs.leftMenu, "this.$refs.leftMenu");
-    console.log(this.$refs.goodsList, "this.$refs.goodsList");
-    var _that = this;
-    this.initScroll();
-    this.$nextTick(() => {
-      _that.initScroll();
-    });
-  },
   data() {
     return {
       topTypeList: orderList.data.container_operation_source,
       typeList: orderList.data.food_spu_tags,
     };
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initScroll();
+    });
+  },
   methods: {
     initScroll() {
-      new BScroll(this.$refs.leftMenu);
-      new BScroll(this.$refs.goodsList);
+      new BScroll(this.$refs.MenuScroll);
+      new BScroll(this.$refs.goodScroll);
     },
   },
 };
