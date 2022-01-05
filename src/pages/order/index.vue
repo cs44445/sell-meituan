@@ -16,6 +16,9 @@
         >
           <img v-if="item.icon" :src="item.icon" alt="" />
           <span>{{ item.name }}</span>
+          <span class="total-num" v-show="getSelectCount(item.spus)">{{
+            getSelectCount(item.spus)
+          }}</span>
         </li>
       </ul>
     </div>
@@ -64,20 +67,27 @@
                 >/{{ item2.unit }}
               </p>
             </div>
+            <CarControl :food="item2" />
           </div>
         </div>
       </div>
     </div>
+    <ShopCar :priceInfo="priceInfo" :selectFood="selectFood" />
   </div>
 </template>
 
 <script>
 import orderList from "@/data/order";
 import BScroll from "better-scroll";
+import ShopCar from "../../components/ShopCar";
+import CarControl from "../../components/common/CarControl";
 
 export default {
   name: "Order",
-  components: {},
+  components: {
+    ShopCar,
+    CarControl,
+  },
   data() {
     return {
       topTypeList: orderList.data.container_operation_source,
@@ -86,6 +96,8 @@ export default {
       goodScroll: {},
       heightList: [],
       scrollY: 0,
+      priceInfo: orderList.data.poi_info,
+      food: {},
     };
   },
   mounted() {
@@ -100,6 +112,7 @@ export default {
       });
       this.goodScroll = new BScroll(this.$refs.goodScroll, {
         probeType: 2,
+        click: true,
       });
 
       // 监听滚动
@@ -131,6 +144,15 @@ export default {
       // 滚动到对应元素的位置
       this.goodScroll.scrollToElement(el, 250);
     },
+    getSelectCount(spus) {
+      let num = 0;
+      spus.forEach((food) => {
+        if (food.count > 0) {
+          num += food.count;
+        }
+      });
+      return num;
+    },
   },
   computed: {
     currentIndex() {
@@ -146,6 +168,18 @@ export default {
         }
       }
       return 0;
+    },
+    selectFood() {
+      let foods = [];
+      this.typeList.forEach((item) => {
+        item.spus.forEach((food) => {
+          if (food.count > 0) {
+            foods.push(food);
+          }
+        });
+      });
+
+      return foods;
     },
   },
 };
@@ -167,10 +201,11 @@ export default {
     background: #f4f4f4;
     overflow: hidden;
 
-    li {
+    .order-type {
       display: flex;
       padding: 16px 23px 15px 10px;
       border-bottom: 1px solid #e4e4e4;
+      position: relative;
 
       span {
         width: 52px;
@@ -185,6 +220,21 @@ export default {
       img {
         width: 15px;
         height: 15px;
+      }
+
+      .total-num {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background-color: red;
+        color: white;
+        text-align: center;
+        line-height: 13px;
+        font-size: 7px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
       }
     }
   }
