@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Order from '../pages/order'
-import Recommend from '../pages/recommend'
+import Ratings from '../pages/Ratings'
 import Seller from '../pages/seller'
 
 Vue.use(Router)
@@ -17,8 +17,8 @@ export default new Router({
       component: Order
     },
     {
-      path: '/recommend',
-      component: Recommend
+      path: '/ratings',
+      component: Ratings
     },
     {
       path: '/seller',

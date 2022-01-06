@@ -20,7 +20,7 @@ export default {
     return {
       linkList: [
         { path: "/order", content: "点菜" },
-        { path: "/recommend", content: "评价" },
+        { path: "/ratings", content: "评价" },
         { path: "/seller", content: "商家" },
       ],
     };

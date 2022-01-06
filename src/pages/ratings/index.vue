@@ -1,10 +1,10 @@
 <template>
-  <div>Recommend</div>
+  <div>Ratings</div>
 </template>
 
 <script>
 export default {
-  name: "Recommend",
+  name: "Ratings",
   components: {},
   data() {
     return {};
