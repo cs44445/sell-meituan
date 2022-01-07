@@ -1,7 +1,8 @@
 <template>
   <div class="cart-control">
     <transition name="move">
-      <div class="cart-decrease" @click="clickDecrease" v-show="food.count">
+      <!-- 阻止事件冒泡 防止点击减号时 冒泡到 查看商品详情的点击 -->
+      <div class="cart-decrease" @click.stop.prevent="clickDecrease" v-show="food.count">
         <span class="inner icon-remove_circle_outline"></span>
       </div>
     </transition>
@@ -21,7 +22,9 @@ export default {
   props: {
     food: {
       type: Object,
-      return() {},
+      default() {
+        return {};
+      },
     },
   },
   data() {

@@ -46,6 +46,7 @@
             v-for="(item2, indey) in item.spus"
             :key="indey"
             class="food-item-detail"
+            @click="viewFoodDetail(item2)"
           >
             <div class="food-pic">
               <img :src="item2.picture" alt="" />
@@ -73,6 +74,7 @@
       </div>
     </div>
     <ShopCar :priceInfo="priceInfo" :selectFood="selectFood" />
+    <FoodDetail :food="foodItem" ref="foodDetalRef" />
   </div>
 </template>
 
@@ -81,12 +83,14 @@ import orderList from "@/data/order";
 import BScroll from "better-scroll";
 import ShopCar from "../../components/ShopCar";
 import CarControl from "../../components/common/CarControl";
+import FoodDetail from "../../components/FoodDetail";
 
 export default {
   name: "Order",
   components: {
     ShopCar,
     CarControl,
+    FoodDetail,
   },
   data() {
     return {
@@ -98,6 +102,8 @@ export default {
       scrollY: 0,
       priceInfo: orderList.data.poi_info,
       food: {},
+      foodItem: {},
+      showFoodDetial: false,
     };
   },
   mounted() {
@@ -152,6 +158,13 @@ export default {
         }
       });
       return num;
+    },
+    viewFoodDetail(food) {
+      // 传值给详情组件
+      this.foodItem = food;
+
+      // 控制是否展示详情组件
+      this.$refs.foodDetalRef.showFoodDetail();
     },
   },
   computed: {
