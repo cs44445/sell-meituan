@@ -1,12 +1,16 @@
 <template>
   <div class="order">
     <div ref="MenuScroll">
+      <!-- 菜单 -->
       <!-- 使用滚动的内层只能由一个content包裹 否则无法滚动 -->
       <ul class="order-wrapper">
-        <li :class="{ activeMenu: currentIndex === 0 }" @click="selectMenu(0)">
-          <img :src="topTypeList.tag_icon" alt="" />
+        <!-- 专场-菜单 -->
+        <li class="order-type" :class="{ activeMenu: currentIndex === 0 }" @click="selectMenu(0)">
+          <img :src="topTypeList.tag_icon" alt="" v-if="topTypeList.tag_icon"/>
           <span>{{ topTypeList.tag_name }}</span>
         </li>
+
+        <!-- 商品-菜单 -->
         <li
           class="order-type"
           v-for="(item, index) in typeList"
@@ -142,6 +146,7 @@ export default {
       }
     },
     selectMenu(index) {
+      console.log(index,'index');
       let goodList =
         this.$refs.goodScroll.getElementsByClassName("good-list-hook");
 
@@ -149,6 +154,7 @@ export default {
       let el = goodList[index];
       // 滚动到对应元素的位置
       this.goodScroll.scrollToElement(el, 250);
+      console.log(this.currentIndex,'this.currentIndex');
     },
     getSelectCount(spus) {
       let num = 0;
