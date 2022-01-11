@@ -110,7 +110,7 @@ export default {
       this.isShowPage = true;
       this.$nextTick(() => {
         if (!this.foodItemScroll) {
-          this.foodItemScroll = new BScroll(this.$refs.foodItemRef,{
+          this.foodItemScroll = new BScroll(this.$refs.foodItemRef, {
             click: true,
           });
         } else {
@@ -123,7 +123,7 @@ export default {
     },
     chooseBtn() {
       Vue.set(this.food, "count", 1);
-    }
+    },
   },
 };
 </script>

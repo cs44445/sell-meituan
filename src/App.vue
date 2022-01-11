@@ -4,7 +4,7 @@
     <SellHeader :shopInfo="shopInfo" />
 
     <!-- 导航 nav -->
-    <SellNav />
+    <SellNav :commentNum="commentNum" />
 
     <!-- 主体内容 -->
     <router-view />
@@ -15,6 +15,7 @@
 import SellHeader from "../src/components/SellHeader";
 import SellNav from "../src/components/SellNav";
 import shopData from "./data/order";
+import ratings from "./data/ratings";
 
 export default {
   name: "App",
@@ -25,6 +26,7 @@ export default {
   data() {
     return {
       shopInfo: shopData.data,
+      commentNum: ratings.data.comment_num,
     };
   },
 };

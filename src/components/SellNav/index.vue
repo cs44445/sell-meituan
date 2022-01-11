@@ -16,11 +16,17 @@
 export default {
   name: "SellNav",
   components: {},
+  props: {
+    commentNum: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
       linkList: [
         { path: "/order", content: "点菜" },
-        { path: "/ratings", content: "评价" },
+        { path: "/ratings", content: `评价(${this.commentNum})` },
         { path: "/seller", content: "商家" },
       ],
     };
