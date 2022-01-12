@@ -258,6 +258,10 @@ export default {
     }
   }
 
+  .list-main::-webkit-scrollbar {
+    display: none;
+  }
+
   .list-main {
     max-height: 360px;
     overflow: scroll;
